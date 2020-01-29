@@ -1,0 +1,16 @@
+body,
+html {
+  overflow: hidden;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  display: inline;
+}
+
+canvas {
+  border: 1px solid #bada55;
+  margin: auto;
+  display: block;
+}
