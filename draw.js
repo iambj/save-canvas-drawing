@@ -1,9 +1,8 @@
+// For demo to work, use the data from the URL and save to the text file.
+
 const saveBtn = document.getElementById("save");
 const canvas = document.getElementById("draw");
 const ctx = canvas.getContext("2d");
-
-// canvas.width = window.innerWidth - 2;
-// canvas.height = window.innerHeight - 2;
 
 let isDrawing = false;
 let lastX = 0;
@@ -13,7 +12,6 @@ ctx.lineWidth = "10";
 ctx.lineJoin = "round";
 ctx.lineCap = "round";
 ctx.strokeStyle = "#BADA55";
-// ctx.globalCompositeOperation = "overlay";
 
 function draw(e) {
     if (!isDrawing) return;
@@ -31,9 +29,8 @@ function draw(e) {
 
 function saveImage() {
     let data = canvas.toDataURL();
-    console.log(data);
-    return;
     window.location.href = data;
+    console.log(data);
 }
 
 canvas.addEventListener("mousemove", draw);

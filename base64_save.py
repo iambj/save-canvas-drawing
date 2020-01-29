@@ -5,6 +5,8 @@
 # Eventually, we could make the file format changeable, however the browser is defaulting to png right now. 
 
 # Reads a text file but could take an AJAX request.
+
+
 import base64
 
 # Read the text file of data as bytes. 
