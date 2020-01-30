@@ -6,7 +6,6 @@
 
 # Reads a text file but could take an AJAX request.
 
-
 import base64
 
 # Read the text file of data as bytes. 
