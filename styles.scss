@@ -4,14 +4,37 @@ html {
     margin: 0;
 }
 
-h1 {
+div {
     text-align: center;
-    display: inline;
+    margin: 20px 0;
 }
+
+h1 {
+    border: 1px solid #600613;
+    color: #600613;
+    margin: 10px;
+    padding: 10px 0;
+    font-family: sans-serif;
+}
+
 canvas {
-    // width: 1500px;
-    // height: 1500px;
-    border: 1px solid #bada55;
+    border: 1px solid #600613;
     margin: auto;
     display: block;
+}
+
+button {
+    height: 36px;
+    font-size: 20px;
+    text-align: center;
+    margin: auto;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    &:hover {
+        border-color: rgba(50, 50, 100, 0.5);
+    }
 }
