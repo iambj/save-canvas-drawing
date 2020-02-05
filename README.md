@@ -10,7 +10,8 @@ Note: This is part of larger project I am working on, it is not a standalone imp
 
 ## TODO
 
-1. Implement Undo/Redo
-1. Different image formats
-1. Adjustable brushes (size, color)
-1. Make it pretty
+1. Implement Redo
+2. Different image formats
+3. Adjustable brushes (size, color)
+4. Erase tool
+5. Make it pretty

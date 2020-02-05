@@ -37,4 +37,7 @@ button {
     &:hover {
         border-color: rgba(50, 50, 100, 0.5);
     }
+    &:disabled {
+        cursor: not-allowed;
+    }
 }

@@ -32,11 +32,12 @@ function draw(e) {
 function saveImage() {
     let data = canvas.toDataURL();
     window.location.href = data;
-    // console.log(data);
 }
 
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mousedown", e => {
+    undo.setContent(canvas.toDataURL()); // On mouse up save image to state.
+    history.push(undo.createState());
     if (e.which !== 1) return; // stop if the left click isn't used.
     isDrawing = true;
     [lastX, lastY] = [e.offsetX, e.offsetY];
@@ -50,21 +51,35 @@ let undo = new Editor();
 let history = new History();
 undo.setContent("");
 history.push(undo.createState());
-canvas.addEventListener("mouseup", () => {
-    undo.setContent(canvas.toDataURL()); // On mouse up save image to state.
-    history.push(undo.createState());
-});
 
 undoBtn.addEventListener("click", () => {
-    let imgData = history.pop().getContent();
-    undo.restore = imgData;
-    let img = new Image();
-    img.onload = function() {
-        ctx.drawImage(img, 0, 0);
-        console.log("set image");
-    };
-    img.src =
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAYAAADL1t+KAAAD30lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8GJFFQABGYPuoAAAAABJRU5ErkJggg==";
-    console.log(img);
-    console.log(imgData);
+    console.log(history.listStates());
+    let lastState = history.pop();
+    if (!lastState) return;
+    if (lastState.data.length === 0) {
+        ctx.clearRect(0, 0, 500, 500);
+        undo.setContent("");
+    } else {
+        let img = new Image();
+        img.src = lastState.getContent();
+        img.onload = function() {
+            ctx.clearRect(0, 0, 500, 500);
+            ctx.drawImage(img, 0, 0);
+        };
+    }
 });
+
+// TODO
+// redoBtn.addEventListener("click", () => {
+//     let redo = history.redoStates.pop();
+//     if (redo) {
+//         history.states.push(redo);
+//         console.log(redo.getContent());
+//         let img = new Image();
+//         img.src = redo.getContent();
+//         img.onload = function() {
+//             ctx.clearRect(0, 0, 500, 500);
+//             ctx.drawImage(img, 0, 0);
+//         };
+//     }
+// });
